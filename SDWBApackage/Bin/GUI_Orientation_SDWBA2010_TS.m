@@ -94,7 +94,7 @@ set(handles.edit_meanorientation,'String', '11')
 set(handles.edit_stdorientation,'String', '4')
 set(handles.axes2,'Visible','off')
 cla;
-LEGEND OFF
+legend off
 set(handles.uipanel_Parameters,'Visible','off')
 set(handles.uipanel_TS_calculation,'Visible','off')
 
@@ -528,4 +528,5 @@ function edit_new_frequency_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of edit_new_frequency as text
 %        str2double(get(hObject,'String')) returns contents of edit_new_frequency as a double
 
- 
+% Matlab R2014b and later call this. 
+function Setting_uipanel_ResizeFcn(hObject, eventdata, handles) 

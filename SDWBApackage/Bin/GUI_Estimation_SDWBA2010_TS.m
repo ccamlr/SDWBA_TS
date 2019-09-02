@@ -720,7 +720,7 @@ end
 %%% Processing loop based on number of stochastic realizations
 
 for irealisation = 1:noise_realisations
-    [BSTS,BSsigma,form_function,Stdphase_vs_freq,Cylinders_vs_freq] = BSTS_SDWBA_2010(frequency,r,a,h0,g0,phi,[stdphase0 freq0 N0],c,[irealisation noise_realisations],file2save);
+    [BSTS,BSsigma,form_function,Stdphase_vs_freq,Cylinders_vs_freq] = BSTS_SDWBA(frequency,r,a,h0,g0,phi,[stdphase0 freq0 N0],c,[irealisation noise_realisations],file2save);
      %% Saving the iteration
     save(strcat(dirname,'\dataSDWBA\',sprintf('%s_%d',file2save,irealisation)),'Animal_shape_file','L0','ActualLength','fatness_factor','N0','stdphase0','freq0','g0','h0','scaling_factor','noise_realisations','BSTS','BSsigma','frequency','phi','form_function','ActualLength','c','Stdphase_vs_freq','Cylinders_vs_freq')
 end
