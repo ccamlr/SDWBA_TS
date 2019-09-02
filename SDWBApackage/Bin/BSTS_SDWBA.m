@@ -37,8 +37,6 @@ function [TS,sigma,form_function,Stdphase_vs_freq,Cylinders_vs_freq] = BSTS_SDWB
 
 
 
-global k1 r1 r2 a1 a2 betatilt g1 g2 h1 h2 phid
-phid = pi ;
 if (nargin<6)
     phi = 0 ;
 end
@@ -70,16 +68,16 @@ if (size(g0,2)~=1)
 end
 
 k = 2*pi*frequency/c ;                           % wave number
-TS = zeros(length(frequency),length(phi)) ;      % TS vector declaration
-sigma = zeros(length(frequency),length(phi)) ;   % sigma vector declaration
 form_function = zeros(length(frequency),length(phi)) ;  % % backscattering function vector declaration
 phi = phi*pi/180 ;                               % convert from degrees to radians
 
 %%% WAITBAR
-if exist('waitbarparameters','var')
-    hh = waitbar(0,sprintf('calculation  %d  of  %d  stochastic realizations',waitbarparameters),'Name',['Database ' file2save ]) ;
- else
-    hh = waitbar(0,'SDWBA2010 calculations');
+if ~isempty(waitbarparameters)
+    if exist('waitbarparameters','var')
+        hh = waitbar(0,sprintf('calculation  %d  of  %d  stochastic realizations',waitbarparameters),'Name',['Database ' file2save ]) ;
+    else
+        hh = waitbar(0,'SDWBA2010 calculations');
+    end
 end
 
 %%% RESAMPLING
@@ -114,7 +112,6 @@ for ik = 1:length(k)
     for i_phi = 1:length(phi)
         k1 = k(ik).*[cos(phi(i_phi));sin(phi(i_phi));0];  %dimension 3x1
         for iN = 1:(length(a)-1)
-            buff = 0;
             a1 = a(iN);
             a2 = a(iN+1);
             r1 = r(iN,:);
@@ -125,16 +122,20 @@ for ik = 1:length(k)
             h2 = h(iN+1);
             alphatilt = acos((r2-r1)*k1./(norm(k1).*norm(r2-r1)));
             betatilt = pi/2-alphatilt;
-            buff = quadl(@DWBA_integrandBS,0,1);
-            noise = exp(i*(stdphase.^2*randn(size(buff))));
+            buff = quadl(@(s) DWBA_integrandBS(s, k1, r1, r2, a1, a2, betatilt, g1, g2, h1, h2), 0, 1);
+            noise = exp(1i*(stdphase.^2*randn(size(buff))));
             buff = buff*noise;
             form_function(ik,i_phi) = form_function(ik,i_phi)+buff;
         end
-        hh = waitbar((i_phi+(ik-1)*length(phi))/length(phi)/length(k));
+        if exist('hh', 'var')
+            hh = waitbar((i_phi+(ik-1)*length(phi))/length(phi)/length(k));
+        end
     end
     Cylinders_vs_freq(ik) = N ;                   % in order to save number of cylinder and stdphase versus frequency
     Stdphase_vs_freq(ik) = stdphase ;
 end
-close(hh);
+if exist('hh', 'var')
+    close(hh);
+end
 sigma = abs(form_function).^2;
 TS = 10*log10(sigma);
