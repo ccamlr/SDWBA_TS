@@ -565,3 +565,6 @@ function pushbutton_calculate_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to pushbutton_calculate (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
+
+% Matlab R2014b and later call this. 
+function Setting_uipanel_ResizeFcn(hObject, eventdata, handles)
