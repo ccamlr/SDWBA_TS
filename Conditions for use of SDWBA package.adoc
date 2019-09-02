@@ -1,0 +1,32 @@
+== Stochastic Distorted Wave Born Approximation (SDWBA) ==
+
+
+=== Conditions for the use of the SDWBA package of programs ===
+
+
+Users of the code should give reference to the following papers which detail its
+derivation and parameterization:
+
+Conti, S. G., and Demer, D. A. 2006. Improved parameterization of the SDWBA for estimating krill target strength. ICES Journal of Marine Science, 63: 928-935.
+
+Demer, D. A., and Conti, S. G. 2005. New target-strength model indicates more krill in the Southern Ocean. ICES Journal of Marine Science, 62: 25-32.
+
+Demer, D. A., and Conti, S. G. 2003a. Reconciling theoretical versus empirical target strengths of krill; effects of phase variability on the distorted wave Born approximation. ICES Journal of Marine Science, 60: 429-434.
+
+Demer, D. A., and Conti, S. G. 2003b. Validation of the stochastic distorted-wave Born approximation model with broadbandwidth total target strength measurements of Antarctic krill. ICES Journal of Marine Science, 60: 625-635.
+
+_David Ramm_
+
+Data Manager
+Commission for the Conservation of Antarctic Marine Living Resources
+PO Box 213   North Hobart   Tasmania   7002  Australia
+
+Telephone: +61 3 62101140 or +61 400 740524   Fax: +61 3 62248744
+
+Email: david@ccamlr.org
+
+
+11 August 2006
+
+
+
