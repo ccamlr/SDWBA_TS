@@ -52,7 +52,7 @@ function varargout = GUI_Orientation_SDWBA2010_TS(varargin)
 
 % Edit the above text to modify the response to help GUI_Orientation_SDWBA2010_TS
 
-% Last Modified by GUIDE v2.5 26-Aug-2011 11:25:51
+% Last Modified by GUIDE v2.5 17-Apr-2012 22:32:48
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -94,7 +94,7 @@ set(handles.edit_meanorientation,'String', '11')
 set(handles.edit_stdorientation,'String', '4')
 set(handles.axes2,'Visible','off')
 cla;
-legend off
+legend OFF
 set(handles.uipanel_Parameters,'Visible','off')
 set(handles.uipanel_TS_calculation,'Visible','off')
 
@@ -181,7 +181,7 @@ orientation = GaussianOrientation(phi, 90-meanorientation,stdorientation) ;
 [sigma, TS] = AverageTSorientation(BSsigma, orientation, phi) ;
 [coeff, TSestim, kLestim, TSestimerror] = SDWBA_TS_function_coeff(kL, TS, 6) ;
 delta_mean_error = round(mean(abs(TSestimerror)*100))/100 ;
- 
+coeff' 
 %%% Plotting 
 hold on
 % changing color to the previous plots
@@ -341,7 +341,7 @@ handles.session_name = FileName(1:end-4) ;
 set(handles.edit_session,'String', [PathName FileName]) ;
 set(handles.axes2,'Visible','off') ;
 cla;
-legend off
+legend OFF ;
 set(handles.uipanel_Parameters,'Visible','off') ;
 plot_bottom_Callback(hObject, eventdata, handles) ;
 guidata(hObject, handles)
@@ -411,7 +411,7 @@ orientation = GaussianOrientation(phi, 90-meanorientation,stdorientation);
 new_length = str2num(get(handles.edit_new_length,'String')) * 10^-3 ;
 new_freq = str2num(get(handles.edit_new_frequency,'String'))  ;
 
-TS_Simplified = Simplified_TS_SDWBA(new_freq * 10^3, new_length) 
+TS_Simplified = Calculate_Simplified_TS_SDWBA(new_freq * 10^3, new_length) 
 
 delta_mean_error = round(mean(abs(TSestimerror)*100))/100 ;
 
@@ -468,7 +468,7 @@ end
 if AZZ == 1
      
     %%% create the struct array COEFFICIENTS_Simply
-    stri.string = char(['Simplified SDWBA TS polynomial coefficients'],['referred to L0=' num2str(L0*1000) ' mm'],sprintf('for the distribution of orientations N(%d,%d):\r',mean_orientation,std_orientation),' ');
+    stri.string = char(['Simplified SDWBA TS polynomial coefficients'],['referred to L0=' num2str(L0*1000) ' mm with ' num2str(round((fatness_factor-1)*100)) '% fatness'],sprintf('for the distribution of orientations N(%d,%d):\r',mean_orientation,std_orientation),' ');
     varia = ['A';'B';'C';'D';'E';'F';'G';'H';'I';'J'] ;
 for kkk = 1:10
     eval(['stri. ' varia(kkk,:) ' = ' varia(kkk,:) ';'])
@@ -484,13 +484,13 @@ for kkk = 1:10
 end
     COEFFICIENTS_Simply = stri ; 
     clear stri varia kkk
+
 %%% saving and display    
-save(strcat(dirname,file2save),'COEFFICIENTS_Simply','A0','p','coeff','Animal_shape_file','frequency','TS','TSestim','phi','orientation','L0','h0','g0','fatness_factor','scaling_factor','N0','stdphase0','freq0','ActualLength','c','mean_orientation','std_orientation','Processing_Date','TSestimerror','delta_mean_error');
+freq_simply = kLestim/2/pi*c/ActualLength ;     % the frequencies used by the fitting process 
+save(strcat(dirname,file2save),'COEFFICIENTS_Simply','A0','p','coeff','Animal_shape_file','frequency','TS','TSestim','freq_simply','phi','orientation','L0','h0','g0','fatness_factor','scaling_factor','N0','stdphase0','freq0','ActualLength','c','mean_orientation','std_orientation','Processing_Date','TSestimerror','delta_mean_error');
 hea = '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%';
 
-
 hhh = msgbox(char(['Results saved in:  ' file2save '.mat'],[' ';' '], hea(1,1:25),' ', COEFFICIENTS_Simply.string,[' ';' ']) , 'SDWBApackage2010: saving');
-
 
 disp(char(' ', hea, ' ',COEFFICIENTS_Simply.string,' ' ,hea))
 
@@ -557,5 +557,11 @@ function edit_new_frequency_Callback(hObject, eventdata, handles)
 % Hints: get(hObject,'String') returns contents of edit_new_frequency as text
 %        str2double(get(hObject,'String')) returns contents of edit_new_frequency as a double
 
-% Matlab R2014b and later call this. 
-function Setting_uipanel_ResizeFcn(hObject, eventdata, handles)
+ 
+
+
+% --- Executes during object creation, after setting all properties.
+function pushbutton_calculate_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pushbutton_calculate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called

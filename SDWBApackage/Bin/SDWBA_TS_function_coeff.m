@@ -39,17 +39,20 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Define the core function
             
-kLmaxfun = 40 ;  % IF YOU GOT AN ERROR TRY NEXT LINE INSTEAD ! 
+kLmaxfun = 40 ;    
 
-% [ma kLmaxfun] = max(TS)   ;                                         
+ikLfun = min(find(floor(kL)>=kLmaxfun)) ;
 
+if isempty(ikLfun)
+[ma kLmaxfun] = max(TS)        ;
+ikLfun = min(find(floor(kL)>=kLmaxfun)) ;
+end
 % this is an adjustment to the line 23
 % previous Conti script in order to
 % perform a more flexible and 
 % in some case accurate fitting
 % Lucio 18/08/2011
 
-ikLfun = min(find(floor(kL)>=kLmaxfun)) ;
 A0 = [-1 .001 .7 max(TS(1:ikLfun))] ;
 fun = inline('(A(1)*(log10(A(2)*x)./(A(2)*x)).^(A(3))+A(4))','A','x') ;
 [A, rfun, Jfun] = nlinfit(kL(1:ikLfun), TS(1:ikLfun).', fun, A0) ;
@@ -70,3 +73,5 @@ sigmaestimerror = 4*pi*10.^((Pestimerror+fun(A,kL(1:ikLmax)))/10) ;
 TSestimerror = 10*log10(sqrt(abs(sigma.'.^2./abs(sigmaestimerror).^2))) ;
 
 coeff = [A p];
+
+

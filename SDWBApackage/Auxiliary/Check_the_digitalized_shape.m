@@ -55,7 +55,7 @@ function varargout = Check_the_digitalized_shape(varargin)
 
 % Edit the above text to modify the response to help Check_the_digitalized_shape
 
-% Last Modified by GUIDE v2.5 17-Aug-2011 12:43:50
+% Last Modified by GUIDE v2.5 15-Dec-2011 09:55:09
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -327,4 +327,11 @@ function plot_bottom_KeyPressFcn(hObject, eventdata, handles)
 %	Key: name of the key that was pressed, in lower case
 %	Character: character interpretation of the key(s) that was pressed
 %	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes when uipanel1 is resized.
+function uipanel1_ResizeFcn(hObject, eventdata, handles)
+% hObject    handle to uipanel1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)

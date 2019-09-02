@@ -43,7 +43,7 @@ stdphase0 = 'sqrt(2)/2' ;       % Demer and Conti (2003)
 
 %%% operational parameters
 frequency_min = '10' ; frequency_step = '5' ; frequency_max = '500' ;
-discrete_frequency = ' [38 120]' ;
+discrete_frequency = ' [38 70 120]' ;
 theta_min = '-90' ; theta_step = '1'; theta_max = '269' ;
 discrete_incidence = ' [-90 0 90 180 270]' ;
 

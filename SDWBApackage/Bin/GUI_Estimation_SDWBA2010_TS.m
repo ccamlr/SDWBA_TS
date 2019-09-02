@@ -674,7 +674,7 @@ if  get(handles.button_incidence_range,'Value')
     ma = get(handles.incidence_angles_value_max,'String') ;
     eval(['phi = [' mi ':' step ':' ma '] ;'])
 else
-    eval(['phi = ' get(handles.value_discrete_frequency,'String') ';'])
+    eval(['phi = ' get(handles.value_discrete_incidence,'String') ';'])
 end
 
 noise_realisations = str2num(get(handles.stochastic_realizations_value,'String')) ;

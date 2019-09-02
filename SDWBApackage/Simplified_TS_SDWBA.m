@@ -1,10 +1,10 @@
-function TS_Simplified = Simplified_TS_SDWBA(freq, Length)
+function TS_Simplified = Simplified_TS_SDWBA(session_name,freq, Length)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   SDWBApackage2010, version 1.0
 %
-%   TS = Simplified_TS_SDWBA(frequency,Length)
+%   TS_Simplified = Simplified_TS_SDWBA(frequency,Length)
 %   Estimate the simplified version of the SDWBA TS using the variable 
 %   "coeff" in the workspace.
 %
@@ -21,8 +21,12 @@ function TS_Simplified = Simplified_TS_SDWBA(freq, Length)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+ 
 global c coeff ActualLength
+
+load(session_name);
+Length = Length * 10^-3 ;       % from mm in m
+freq = freq * 10^3 ;
 
 A1 = coeff(1:4) ;
 p = coeff(5:end) ;

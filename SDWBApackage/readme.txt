@@ -1,5 +1,5 @@
 --------------------------------------------------
-SDWBApackage2010, version 1.1 October 2011
+SDWBApackage2010, version 1.1 June 2012
 krill target strength calculation based on
 Stochastic Distorted-Wave Born Approximation model
 parameterized by body digitalization 
@@ -131,10 +131,13 @@ Gaussian distribution of orientation described by settable mean and standard dev
 Placing the pointer on one item will show a tooltip related to the parameter.
 
 First, the mean and the standard deviation have to be set and then by pushing the browse button the 
-database can be selected. The system automatically averages the TS over the given distribution of 
-orientation and plots both the full and the simplified SDWBA model showing the mean error over the 
+database can be selected. 
+
+The system automatically averages the full model TS over the given distribution of 
+orientation and calculate the simplified SDWBA model for that distribution.
+Both the full and the simplified function are then plot in the graph showing the mean error over the 
 range of frequency where the TS were calculated. 
-The Parameters panel on the left side of the plot will show the main parameters used to generate the database. 
+The Parameters panel on the left side of the plot will show the main parameters used to generate the database.
 Setting another value of mean and/or standard deviation and pushing the button 'plot' causes the 
 processing to be performed on the same database for the new values and the previous plots are kept 
 in the graph, but in a gray colour. The previous plots will disappear by pushing the browse button and
@@ -145,12 +148,21 @@ distribution for the edited frequency and krill length.
 
 By pushing the button 'Save' a file is saved with the specified database filename, plus the Gaussian 
 characteristics (mean and standard deviation) of the distribution used. The file will contain all the useful 
-information for the SDWBA simplified model included the 10 coefficients of the simplified SDWBA polynomial 
-representation which will also appear in the Matlab command window.
+information for the SDWBA full and simplified models, included the 10 coefficients of the 
+simplified SDWBA polynomial representation which will also appear in the Matlab command window.
+In particular, the variable named "TS" contains the full model backscattering TS for an individual with 
+length equal to that of the digitazed one. The variable "TSestim" contains the simplified model backscattering TS 
+including these at the interpolation points (the frequencies used by the fitting process and included in the 
+variable named "freq_simply"); while the variable "TSestimerror" contains the TS deviations
+from the full version of the simplidied results at the knots of the interpolation process (frequencies set
+to run the full model).
 
-This specific file can be used to estimate the simplified SDWBA TS over the given orientation distribution 
-for a set of frequencies and krill lengths. First, the file has to be loaded in the Matlab workspace, 
-then the script Simplified_TS_SDWBA.m is run with the requested n frequencies and m lengths as input. 
+The saved file can be used to estimate the simplified SDWBA TS over the given orientation distribution 
+for a set of frequencies and krill lengths different from the digitalized one. 
+In practice, it can be used for fast calculation of mean TS in survey areas where the net sample indicates
+a population with mean animal length different from the digitalized one.
+First, the file has to be loaded in the Matlab workspace, then the script Simplified_TS_SDWBA.m is run 
+with the requested n frequencies and m lengths as input. 
 The script will return the n'm matrix 'TS_Simplified' containing the TS values. 
  
 The SDWBApackage2010 includes the files SDWBA_TS_fat40_N11_4.mat and SDWBA_TS_fat40_N11_4.mat, 
@@ -165,7 +177,7 @@ over the distribution of orientation N(11',4').
 Changes from version 1.0 
 (please write below if any change from version 1.0 is made)
 
-OCTOBER 2011 (Lucio):
+OCTOBER 2011, Lucio:
 
 	1) New folder called "Background" introduced.
 	It contains the SDWBApackage20050603.zip files and the paper Calise and Skaret (2011),
@@ -173,10 +185,10 @@ OCTOBER 2011 (Lucio):
 
 	2) Bug on the legend in GUI_Orientation_SDWBA2010_TS.m line 97 was fixed;
 
-	2) Fixed bug when create the name of orientation results 
+	3) Fixed bug when create the name of orientation results 
 	(the calculus was correct but not the name of the *.mat results);
 
-	3) Plotting in orientation GUI panel graph window results with stdorientation=0 also; 
+	4) Plotting in orientation GUI panel graph window results with stdorientation=0 also; 
 
 		% --- Executes on button press in plot_bottom.
 		function A0 = plot_bottom_Callback(hObject, eventdata, handles)
@@ -184,8 +196,38 @@ OCTOBER 2011 (Lucio):
 		Line 177 %%% Calculation
 			if stdorientation == 0; stdorientation=eps; end
 
-	4) Changed the displaing and saving variables after the orientation process. 
+	5) Changed the displaing and saving variables after the orientation process. 
 	The coefficients are grouped in the struct variable called “COEFFICIENTS_Simply” 
 	including a string for useful insertion in papers.
- 
+
+
+
+DECEMBER 2011, Lucio:
+
+        1) Resizing of the figure GUI_Orientation_SDWBA2010_TS and Check_the_digitalized_shape
+           is corrected.
+
+
+
+MARCH 2012, Lucio (after advice from Marian Pena, IEO, Spain):
+
+	   1) Bug reading the discrete incidence angle in Inputs for SDWBA2010 Antarctic krill Target Strength window.
+	      Fixed by replace the correct tag of the values.
+
+
+
+APRIL 2012, Lucio (after discussion with Martin Cox, Australian Antarctic Division):
+
+	   1) Introduction of the new variable named "freq_simply" to be saved after the avareging process.
+		 The new variable contains the interpolated frequencies used to calculate the Simplified model.
+		 With such variable, the user may plot the full and the generate 
+		 simplified functions in a new graph both indipendently from the package.
+
+ 	   2)	 Lucio after IPY poster conference: Revising Readme_SDWBApackage2010.txt file section: 
+		 Averaging over a distribution of orientations with more description of the distribution of orientation .mat file variables.
+
+	   3) Bug correction: post model calcolation for simplified TS. The script Simplified_TS_SDWBA.m has been revised and
+		 the session name introduced as new input variable. For the "Average over a distribution of orientations" GUI interface,
+	      a new script called "Calculate_Simplified_TS_SDWBA.m" has been introduced in the \bin folder 
+	      to estimate the TS by using the simplified SDWBA (left lower panel).
 
