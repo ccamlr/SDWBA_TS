@@ -1,5 +1,5 @@
 --------------------------------------------------
-SDWBApackage2010, version 1.0 August 2011
+SDWBApackage2010, version 1.1 October 2011
 krill target strength calculation based on
 Stochastic Distorted-Wave Born Approximation model
 parameterized by body digitalization 
@@ -20,26 +20,31 @@ The Matlab programs provided with this package allow one to calculate the Target
 of a krill based on the full and simplified SDWBA model with parameterization derived from a 
 digitalized body shape as described in various Demer and Conti works.
 
-The programs were written and tested using Matlab Version 7.12.0.635 (R2011a), 
+The programs were implemented and tested using Matlab Version 7.12.0.635 (R2011a), 
 64-bit (win64) running under Windows.
 
 The package does not include any theoretical changes from the SDWBA model endorsed by CCAMLR 
 as the 'Antarctic krill TS model' (SC-CAMLR, 2005). 
 It is an improvement and a more correct version of the previous Matlab package SDWBApackage20050603 
-implemented by Stephane Conti on 03 June 2005 (which is also included in a zipped folder). 
+implemented by Stephane Conti on 03 June 2005 (which is also included in the "Background" directory as zipped folder). 
 In general, the package follows the implementation, the variable names and the format 
 of that previous package. 
 The rational of the package and the processing differences between the two packages are described in:
 
-Calise and Skaret
+Calise L. and Skaret G. 2011.
 SENSITIVITY INVESTIGATION OF THE SDWBA ANTARCTIC KRILL 
 TARGET STRENGTH MODEL TO FATNESS, MATERIAL CONTRAST AND ORIENTATION. 
-CCMLAR Science, Volume 18, 2011. (in press)
+CCMLAR Science, Volume 18, pages 97-122. (in press)
+
+the .pdf of the paper is included in the "Background" directory.
+
 
 The foremost aim of the package is to provide to the CCMLAR users a friendly interface tool to predict
-the TS of an Euphasia superba population with known mean length and orientation. 
+the TS of an Euphasia superba population with known mean length and orientation.
+
 By using the polynomial representation of TS function (simplified SDWBA) over the given distribution 
 of orientation a fast estimation of TS for a set of frequencies and krill lengths can be obtained.
+
 
 
 
@@ -59,49 +64,50 @@ By placing the pointer on one item shows a tooltip related to the parameter.
 
 The window interface is the main formal difference between this package and the SDWBApackage20050603. 
 It is composed of four panels:
-1) the Storage panel allows one to set the name and the directory where the results are saved;
 
-2) the 'Key Parameters panel' allows one to set the main model parameters. The model is run under the 
-approximation that the material contrasts (g and h) are constant over the modelled krill body. 
-This means that the fileshape.mat file, which collects the position and radii vectors obtained by 
-the body digitalization and the contrast material properties for each discretized cylinder, 
-does not necessary need to contain g and h values.
+	1) the Storage panel allows one to set the name and the directory where the results are saved;
 
-3) the 'Basic Parameters panel' collects all the parameters related to the reference digitalized 
-standard body shape of the krill, whose parameters are included in the fileshape.mat file.
-This has to be referred to a head left view image of the animal with points starting from the telson 
-(the first discretized cylinder has to represent the tail (or part of it).
-If the user needs to run the model with different shape, or different than the default parameters, 
-the button 'browse' will give the opportunity to choose the fileshape.mat and then to edit new values 
-for the parameters. 
-It is important to note that if the Actual length is different from the L0 reference length, 
-the simplified SDWBA model obtained by running the next step Average over a distribution of orientations 
-is referred to the first. This means that the Actual length becomes the reference length L0 for 
-the polynomial expression of the simplified SDWBA (Demer and Conti, 2005; Conti and Demer, 2006). 
+	2) the 'Key Parameters panel' allows one to set the main model parameters. 
+	The model is run under the approximation that the material contrasts (g and h) are constant over the modelled krill body. 
+	This means that the fileshape.mat file, which collects the position and radii vectors obtained by 
+	the body digitalization and the contrast material properties for each discretized cylinder, 
+	does not necessary need to contain g and h values.
 
-The button 'check the shape' allows one to graphically check the shape and the new resampling 
-(see Calise and Skaret, 2011) for frequencies higher than the reference. When the button is pressed, 
-a new window will pop up. All the digitized shape and empirical parameters are shown in the panel "References". 
-Editing a specific frequency in the panel "Resampling" and pushing the button "plot", the resampled shape 
-will be plotted in the graphic window and the new number of cylinders, standard deviation of the stochastic 
-phase and volume will be calculated and shown. Placing the pointer on one item shows a tooltip related 
-to the parameter.
+	3) the 'Basic Parameters panel' collects all the parameters related to the reference digitalized 
+	standard body shape of the krill, whose parameters are included in the fileshape.mat file.
+	This has to be referred to a head left view image of the animal with points starting from the telson 
+	(the first discretized cylinder has to represent the tail (or part of it).
+	If the user needs to run the model with different shape, or different than the default parameters, 
+	the button 'browse' will give the opportunity to choose the fileshape.mat and then to edit new values 
+	for the parameters. 
+	It is important to note that if the Actual length is different from the L0 reference length, 
+	the simplified SDWBA model obtained by running the next step Average over a distribution of orientations 
+	is referred to the first. This means that the Actual length becomes the reference length L0 for 
+	the polynomial expression of the simplified SDWBA (Demer and Conti, 2005; Conti and Demer, 2006). 
 
-When the checking is complete, by pressing the button "Exit" it is possibly to return to the setting 
-SDWBA parameters window interface.
+	The button 'check the shape' allows one to graphically check the shape and the new resampling 
+	(see Calise and Skaret, 2011) for frequencies higher than the reference. When the button is pressed, 
+	a new window will pop up. All the digitized shape and empirical parameters are shown in the panel "References". 
+	Editing a specific frequency in the panel "Resampling" and pushing the button "plot", the resampled shape 
+	will be plotted in the graphic window and the new number of cylinders, standard deviation of the stochastic 
+	phase and volume will be calculated and shown. Placing the pointer on one item shows a tooltip related 
+	to the parameter.
 
-4) by the 'Operational Parameters panel' it is possible to set the frequency and the acoustic wave angle 
-of incidence on the organism. Both parameters can be set as semi-continuous (range options) or discrete values.
-The discrete options can also be used in the case of semi-continuous ranges with specific operational values. 
-For example, if it is required to run the model from 20 kHz to 350 kHz with steps of 10 kHz, but also 
-including the frequencies 38 and 333 kHz, it can be set as:
-[20:10:30 38 40:10:330 333 340:10:350].
-If multiple runs are required and the parameters are different from the default, it is more convenient 
-to change the Default_parameters.m script; for the previous example the variable discrete_frequency will 
-take the form: 
-discrete_frequency = [20:10:30 38 40:10:330 333 340:10:350];
+	When the checking is complete, by pressing the button "Exit" it is possibly to return to the setting 
+	SDWBA parameters window interface.
 
-Note also that in all the Demer and Conti works the wave incidence angle is denoted by theta. 
+	4) by the 'Operational Parameters panel' it is possible to set the frequency and the acoustic wave angle 
+	of incidence on the organism. Both parameters can be set as semi-continuous (range options) or discrete values.
+	The discrete options can also be used in the case of semi-continuous ranges with specific operational values. 
+	For example, if it is required to run the model from 20 kHz to 350 kHz with steps of 10 kHz, but also 
+	including the frequencies 38 and 333 kHz, it can be set as:
+	[20:10:30 38 40:10:330 333 340:10:350].
+	If multiple runs are required and the parameters are different from the default, it is more convenient 
+	to change the Default_parameters.m script; for the previous example the variable discrete_frequency will 
+	take the form: 
+	discrete_frequency = [20:10:30 38 40:10:330 333 340:10:350];
+	
+Note that in all the Demer and Conti works the wave incidence angle is denoted by theta. 
 In this package the variable name 'phi' is preferred to avoid misunderstanding with the krill angle 
 of orientation commonly indicated as theta.
 
@@ -153,8 +159,33 @@ over the distribution of orientation N(11',4').
  
  
 
+
+
+
 Changes from version 1.0 
 (please write below if any change from version 1.0 is made)
 
+OCTOBER 2011 (Lucio):
+
+	1) New folder called "Background" introduced.
+	It contains the SDWBApackage20050603.zip files and the paper Calise and Skaret (2011),
+	CCMLAR Science, 18: 97-122. (in press)
+
+	2) Bug on the legend in GUI_Orientation_SDWBA2010_TS.m line 97 was fixed;
+
+	2) Fixed bug when create the name of orientation results 
+	(the calculus was correct but not the name of the *.mat results);
+
+	3) Plotting in orientation GUI panel graph window results with stdorientation=0 also; 
+
+		% --- Executes on button press in plot_bottom.
+		function A0 = plot_bottom_Callback(hObject, eventdata, handles)
+		.
+		Line 177 %%% Calculation
+			if stdorientation == 0; stdorientation=eps; end
+
+	4) Changed the displaing and saving variables after the orientation process. 
+	The coefficients are grouped in the struct variable called “COEFFICIENTS_Simply” 
+	including a string for useful insertion in papers.
  
 

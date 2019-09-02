@@ -40,9 +40,7 @@ switch ButtonName,
         
         GUI_Estimation_SDWBA2010_TS
         clear
-         
-
-        
+                 
     case 'Orientation average'
         % Orientation distribution
         GUI_Orientation_SDWBA2010_TS

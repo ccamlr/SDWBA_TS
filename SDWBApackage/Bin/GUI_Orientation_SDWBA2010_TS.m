@@ -175,8 +175,9 @@ set(handles.value_phase_variability,'String', round(stdphase0*10^4)/10^4)
 
 
 %%% Calculation
+if stdorientation == 0; stdorientation=eps; end
 kL = 2*pi*frequency/c*ActualLength;
-orientation = GaussianOrientation(phi, 90-meanorientation,stdorientation) ;
+orientation = GaussianOrientation(phi, 90-meanorientation,stdorientation) ; 
 [sigma, TS] = AverageTSorientation(BSsigma, orientation, phi) ;
 [coeff, TSestim, kLestim, TSestimerror] = SDWBA_TS_function_coeff(kL, TS, 6) ;
 delta_mean_error = round(mean(abs(TSestimerror)*100))/100 ;
@@ -205,6 +206,7 @@ hold off
 else
  errordlg([ handles.session_name ' is not a Database!'],'SDWBApackage2010: warning!')   
 end
+guidata(hObject, handles);
  
 
 
@@ -336,14 +338,15 @@ function Browse_session_Callback(hObject, eventdata, handles)
 [FileName,PathName] = uigetfile('*.mat','SDWBApackage2010: Select folder and Database to be analyzed') ;
 handles.session_path = PathName ;
 handles.session_name = FileName(1:end-4) ;
-set(handles.edit_session,'String', [PathName FileName])
+set(handles.edit_session,'String', [PathName FileName]) ;
 set(handles.axes2,'Visible','off') ;
 cla;
-LEGEND OFF ;
+legend off
 set(handles.uipanel_Parameters,'Visible','off') ;
 plot_bottom_Callback(hObject, eventdata, handles) ;
-guidata(hObject, handles);
+guidata(hObject, handles)
 
+ 
  
 
 % --- Executes during object creation, after setting all properties.
@@ -463,21 +466,47 @@ if exist([file2save '.mat'],'file')
 end
   
 if AZZ == 1
-save(strcat(dirname,file2save),'A','B','C','E','F','G','H','I','J','A0','p','coeff','Animal_shape_file','frequency','TS','TSestim','phi','orientation','L0','h0','g0','fatness_factor','scaling_factor','N0','stdphase0','freq0','ActualLength','c','mean_orientation','std_orientation','Processing_Date','TSestimerror','delta_mean_error');
-msgbox(['Results saved in:  ' file2save '.mat'], 'SDWBApackage2010: saving',  'help');
+     
+    %%% create the struct array COEFFICIENTS_Simply
+    stri.string = char(['Simplified SDWBA TS polynomial coefficients'],['referred to L0=' num2str(L0*1000) ' mm'],sprintf('for the distribution of orientations N(%d,%d):\r',mean_orientation,std_orientation),' ');
+    varia = ['A';'B';'C';'D';'E';'F';'G';'H';'I';'J'] ;
+for kkk = 1:10
+    eval(['stri. ' varia(kkk,:) ' = ' varia(kkk,:) ';'])
+    eval(['ec_re = real(' varia(kkk,:) ') ;'])
+    eval(['ec_im = imag(' varia(kkk,:) ') ;'])
+    if eval(['isreal(' varia(kkk,:) ')'])
+      ecco = sprintf('% +5s %+.8e',[varia(kkk,:) ' ='],ec_re); 
+    else
+    ecco = sprintf('% +5s %+.8e  %+.8ei',[varia(kkk,:) ' ='], ec_re, ec_im) ;   
+    end
+    stri.string = char(stri.string,ecco) ;
+    clear ec_re ec_im ecco
+end
+    COEFFICIENTS_Simply = stri ; 
+    clear stri varia kkk
+%%% saving and display    
+save(strcat(dirname,file2save),'COEFFICIENTS_Simply','A0','p','coeff','Animal_shape_file','frequency','TS','TSestim','phi','orientation','L0','h0','g0','fatness_factor','scaling_factor','N0','stdphase0','freq0','ActualLength','c','mean_orientation','std_orientation','Processing_Date','TSestimerror','delta_mean_error');
+hea = '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%';
 
-        disp({'%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%';
-            sprintf('Simplified SDWBA TS polynomial coefficient for N(%d,%d):\r',mean_orientation,std_orientation);
-            sprintf('A = %+.8e  %+.8ei',real(A), imag(A));
-            sprintf('B = %+.8e  %+.8ei',real(B), imag(B));
-            sprintf('C = %+.8e  %+.8ei',real(C), imag(C));
-            sprintf('D = %+.8e', D);
-            sprintf('E = %+.8e', E);
-            sprintf('F = %+.8e', F);
-            sprintf('G = %+.8e', G);
-            sprintf('H = %+.8e', H);
-            sprintf('I = %+.8e', I);
-            sprintf('J = %+.8e  %+.8ei',real(J), imag(J))});
+
+hhh = msgbox(char(['Results saved in:  ' file2save '.mat'],[' ';' '], hea(1,1:25),' ', COEFFICIENTS_Simply.string,[' ';' ']) , 'SDWBApackage2010: saving');
+
+
+disp(char(' ', hea, ' ',COEFFICIENTS_Simply.string,' ' ,hea))
+
+%         disp({'%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%';
+%             sprintf('Simplified SDWBA TS polynomial coefficient for N(%d,%d):\r',mean_orientation,std_orientation);
+%             sprintf('A = %+.8e  %+.8ei',real(A), imag(A));
+%             sprintf('B = %+.8e  %+.8ei',real(B), imag(B));
+%             sprintf('C = %+.8e  %+.8ei',real(C), imag(C));
+%             sprintf('D = %+.8e', D);
+%             sprintf('E = %+.8e', E);
+%             sprintf('F = %+.8e', F);
+%             sprintf('G = %+.8e', G);
+%             sprintf('H = %+.8e', H);
+%             sprintf('I = %+.8e', I);
+%             sprintf('J = %+.8e  %+.8ei',real(J), imag(J))});
+        
  
 clear
 end
@@ -529,4 +558,4 @@ function edit_new_frequency_Callback(hObject, eventdata, handles)
 %        str2double(get(hObject,'String')) returns contents of edit_new_frequency as a double
 
 % Matlab R2014b and later call this. 
-function Setting_uipanel_ResizeFcn(hObject, eventdata, handles) 
+function Setting_uipanel_ResizeFcn(hObject, eventdata, handles)
