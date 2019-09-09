@@ -1,6 +1,6 @@
 == SDWBA
 
-This repository contains Matlab code to calculate the acoustic target strength of Antarctic krill using the stochastic distorted wave Born approximation. 
+This repository contains Matlab code to calculate the acoustic target strength of Antarctic krill using the stochastic distorted wave Born approximation scattering model. 
 
 The implementation contained here has been developed and used for CCAMLR Antarctic krill acoustic biomass estimates. Several versions exist of this implementation, due to revisions and corrections to the code, but have not been maintained inside a version control system until the creation of this repository. 
 
