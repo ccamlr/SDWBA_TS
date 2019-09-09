@@ -1,0 +1,47 @@
+== SDWBA
+
+This repository contains Matlab code to calculate the acoustic target strength of Antarctic krill using the stochastic distorted wave Born approximation. 
+
+The implementation contained here has been developed and used for CCAMLR Antarctic krill acoustic biomass estimates. Several versions exist of this implementation, due to revisions and corrections to the code, but have not been maintained inside a version control system until the creation of this repository. 
+
+Each historical version of this package has been identified in the current repository through git tags. These are available https://github.com/ccamlr/SDWBA_TS/releases[here]. The first version (https://github.com/ccamlr/SDWBA_TS/releases/tag/v0.9) had the attribution statement:
+
+----
+
+Users of the code should give reference to the following papers which detail its
+derivation and parameterization:
+
+Conti, S. G., and Demer, D. A. 2006. Improved parameterization of the SDWBA for estimating krill target strength. ICES Journal of Marine Science, 63: 928-935.
+
+Demer, D. A., and Conti, S. G. 2005. New target-strength model indicates more krill in the Southern Ocean. ICES Journal of Marine Science, 62: 25-32.
+
+Demer, D. A., and Conti, S. G. 2003a. Reconciling theoretical versus empirical target strengths of krill; effects of phase variability on the distorted wave Born approximation. ICES Journal of Marine Science, 60: 429-434.
+
+Demer, D. A., and Conti, S. G. 2003b. Validation of the stochastic distorted-wave Born approximation model with broadbandwidth total target strength measurements of Antarctic krill. ICES Journal of Marine Science, 60: 625-635.
+
+_David Ramm_
+
+Data Manager
+Commission for the Conservation of Antarctic Marine Living Resources
+PO Box 213   North Hobart   Tasmania   7002  Australia
+
+Telephone: +61 3 62101140 or +61 400 740524   Fax: +61 3 62248744
+
+Email: david@ccamlr.org
+
+11 August 2006
+
+----
+
+while later versions simply said (https://github.com/ccamlr/SDWBA_TS/blob/master/SDWBApackage/readme.txt):
+
+----
+GNU Public Licence Copyright (c) Lucio Calise
+Comments and suggestions to lucio@imr.no
+----
+
+with reference to an additional https://www.ccamlr.org/en/publications/science_journal/ccamlr-science-volume-18/97-122[paper]:
+
+Calise, L., and Skaret, G. 2011. Sensitivity investigation of the SDWBA Antarctic krill target strength model to fatness, material contrasts and orientation. CCAMLR Science, 18: 97–122.
+
+
